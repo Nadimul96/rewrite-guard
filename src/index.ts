@@ -20,3 +20,13 @@ export {
 	type Thresholds,
 } from "./profiles.js";
 export { normalizeWord, type Token, tokenize, tokenNorms } from "./tokenize.js";
+export {
+	type AlignedWord,
+	type AlignmentFailure,
+	type AlignTranscriptOptions,
+	alignTranscript,
+	normalizeSpokenWord,
+	type TimedWord,
+	type TranscriptAlignment,
+	validateTimedWords,
+} from "./transcript.js";
