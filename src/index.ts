@@ -3,6 +3,7 @@ export {
 	checkFidelity,
 	type Failure,
 	type FailureCode,
+	type FidelityMetrics,
 	type FidelityOptions,
 	type FidelityReport,
 	type MovedToken,

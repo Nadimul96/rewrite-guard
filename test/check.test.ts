@@ -22,7 +22,7 @@ describe("checkFidelity: coverage", () => {
 			"I cleaned my apartment all afternoon. Maya arrived.",
 		);
 		expect(report.passes).toBe(false);
-		expect(codes(report)).toEqual(expect.arrayContaining(["lexical_coverage", "payoff"]));
+		expect(codes(report)).toContain("lexical_coverage");
 		expect(norms(report.missing)).toEqual(expect.arrayContaining(["brother", "walked", "missing", "jacket"]));
 	});
 
@@ -168,11 +168,15 @@ describe("checkFidelity: protected content", () => {
 		expect(norms(report.negations.added)).toEqual(["not"]);
 	});
 
-	it("can skip the payoff requirement for rewrites that may recut the ending", () => {
+	it("enforces the payoff only when asked, and lets a caller waive it", () => {
 		const source = "The pump failed at noon and the crew replaced the seal before the evening shift.";
 		const rewrite = "The pump failed at noon and the crew replaced the seal.";
-		expect(codes(checkFidelity(source, rewrite))).toContain("payoff");
-		expect(codes(checkFidelity(source, rewrite, { requirePayoff: false }))).not.toContain("payoff");
+		expect(codes(checkFidelity(source, rewrite, { thresholds: { payoff: 0 } }))).not.toContain("payoff");
+		const strictEnding = checkFidelity(source, rewrite, { thresholds: { payoff: 1 } });
+		expect(codes(strictEnding)).toContain("payoff");
+		expect(strictEnding.payoff.missing.map((token) => token.norm)).toEqual(["evening", "shift"]);
+		const waived = checkFidelity(source, rewrite, { thresholds: { payoff: 1 }, requirePayoff: false });
+		expect(codes(waived)).not.toContain("payoff");
 	});
 
 	it("accepts a forced profile and threshold overrides", () => {

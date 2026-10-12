@@ -20,7 +20,7 @@ function fakeIo(files: Record<string, string>) {
 
 const files = {
 	"source.txt": "The courier did not sign for the 3 parcels at the depot on Monday morning.",
-	"good.txt": "The courier didn’t sign for the three parcels at the depot on Monday.",
+	"good.txt": "The courier didn’t sign for the three parcels at the depot on Monday morning.",
 	"bad.txt": "The courier signed for the 4 parcels at the depot in Leeds on Monday morning.",
 	"script.txt": "Hello there, big wide world.",
 	"words.json": JSON.stringify({
@@ -54,9 +54,10 @@ describe("cli", () => {
 		expect(report.profile.name).toBe("normal");
 	});
 
-	it("exits 0 when the rewrite passes with the ending check relaxed", () => {
-		const { io } = fakeIo(files);
+	it("exits 0 and prints nothing in quiet mode when the rewrite passes", () => {
+		const { io, out } = fakeIo(files);
 		expect(run(["check", "source.txt", "good.txt", "--no-payoff", "--quiet"], io)).toBe(0);
+		expect(out()).toBe("");
 	});
 
 	it("aligns a transcript and reports interpolated words", () => {

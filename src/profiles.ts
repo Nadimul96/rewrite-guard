@@ -21,9 +21,9 @@ export interface Thresholds {
 	readonly orderRetention: number;
 	/** Minimum share of the final source span (the payoff) kept in order. */
 	readonly payoff: number;
-	/** Longest run of consecutive source tokens that may be dropped. */
+	/** Longest block of dropped source tokens allowed (content-word spans, see runs.ts). */
 	readonly maxMissingRun: number;
-	/** Longest run of consecutive source tokens that may appear out of order. */
+	/** Longest block of out-of-order source tokens allowed. */
 	readonly maxMovedRun: number;
 }
 
