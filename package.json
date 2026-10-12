@@ -1,0 +1,58 @@
+{
+	"name": "rewrite-fidelity",
+	"version": "0.1.0",
+	"description": "Deterministic, explainable checks that catch an LLM rewrite dropping, reordering or inventing facts from a source text.",
+	"keywords": [
+		"llm",
+		"hallucination",
+		"faithfulness",
+		"text-alignment",
+		"lcs",
+		"forced-alignment",
+		"evaluation"
+	],
+	"license": "MIT",
+	"author": "Nadimul Haque",
+	"type": "module",
+	"sideEffects": false,
+	"engines": {
+		"node": ">=20"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"bin": {
+		"rewrite-fidelity": "./dist/cli/main.js"
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsc -p tsconfig.build.json",
+		"typecheck": "tsc --noEmit",
+		"lint": "biome check .",
+		"format": "biome check --write .",
+		"test": "vitest run",
+		"test:watch": "vitest"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.5.15",
+		"@types/node": "^22.20.5",
+		"fast-check": "4.10.2",
+		"tsx": "4.23.15",
+		"typescript": "7.0.2",
+		"vitest": "5.0.4"
+	},
+	"packageManager": "pnpm@10.13.1",
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild"
+		]
+	}
+}
