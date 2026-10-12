@@ -63,7 +63,7 @@ export function decide(input: DecisionInput): Failure[] {
 	if (metrics.longestMovedRun > profile.maxMovedRun) {
 		fail(
 			"moved_span",
-			`${runOf(metrics.longestMovedRun)} out of source order; the limit is ${profile.maxMovedRun}.`,
+			`${runOf(metrics.longestMovedRun)} out of order; the limit is ${profile.maxMovedRun}.`,
 		);
 	}
 	if (novel.length > 0) {
