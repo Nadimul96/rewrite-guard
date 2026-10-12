@@ -3,37 +3,37 @@
   "machine": "Apple M1, 16 GB, darwin 25.5.0 arm64, Node v22.22.0",
   "corpus": {
     "pairs": 3626,
-    "totalMs": 203.45,
-    "checksPerSecond": 17822
+    "totalMs": 116.64,
+    "checksPerSecond": 31088
   },
   "scaling": [
     {
       "words": 1000,
-      "scatteredEditsMs": 12.75,
-      "oneLocalEditMs": 3.51,
+      "scatteredEditsMs": 4.39,
+      "oneLocalEditMs": 1.22,
       "tokens": 1001
     },
     {
       "words": 5000,
-      "scatteredEditsMs": 115.28,
-      "oneLocalEditMs": 16.33,
+      "scatteredEditsMs": 104.29,
+      "oneLocalEditMs": 9,
       "tokens": 5001
     },
     {
       "words": 10000,
-      "scatteredEditsMs": 421.61,
-      "oneLocalEditMs": 30.04,
+      "scatteredEditsMs": 329.23,
+      "oneLocalEditMs": 15.64,
       "tokens": 10006
     },
     {
       "words": 20000,
-      "scatteredEditsMs": 1583.51,
-      "oneLocalEditMs": 76.61,
+      "scatteredEditsMs": 1795.96,
+      "oneLocalEditMs": 50.87,
       "tokens": 20009
     }
   ],
   "identity70kTokens": {
-    "ms": 183.89,
+    "ms": 118.95,
     "matchedInOrder": 70035
   }
 }

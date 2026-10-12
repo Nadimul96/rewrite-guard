@@ -1,7 +1,7 @@
 /**
- * `pnpm bench:perf`: wall-clock timings on this machine. Not deterministic,
- * so the output (bench/results/perf.json) records the machine and date and
- * is not checked in CI.
+ * `pnpm bench:perf`: wall-clock timings on this machine (medians of several
+ * runs). Not deterministic, so the output (bench/results/perf.json) records
+ * the machine and date and is not checked in CI.
  */
 import { writeFileSync } from "node:fs";
 import { arch, cpus, platform, release, totalmem } from "node:os";
@@ -12,11 +12,17 @@ import { seeded } from "./rng.js";
 
 const OUTPUT = new URL("./results/perf.json", import.meta.url);
 
-function time<T>(run: () => T, repeat = 1): { ms: number; result: T } {
+/** Median wall-clock time of `repeat` runs after one warm-up run. */
+function time<T>(run: () => T, repeat = 5): { ms: number; result: T } {
 	let result = run();
-	const started = performance.now();
-	for (let index = 0; index < repeat; index += 1) result = run();
-	return { ms: (performance.now() - started) / repeat, result };
+	const samples: number[] = [];
+	for (let index = 0; index < repeat; index += 1) {
+		const started = performance.now();
+		result = run();
+		samples.push(performance.now() - started);
+	}
+	samples.sort((left, right) => left - right);
+	return { ms: samples[Math.floor(samples.length / 2)] as number, result };
 }
 
 /** A long synthetic document built from corpus words, plus a copy with scattered edits. */
@@ -37,14 +43,14 @@ function longPair(words: number, edits: number) {
 const { pairs } = buildDataset();
 const corpus = time(() => {
 	for (const pair of pairs) checkFidelity(pair.source, pair.rewrite);
-}, 5);
+}, 7);
 
 const scaling = [1_000, 5_000, 10_000, 20_000].map((words) => {
 	const scattered = longPair(words, 20);
 	const local = longPair(words, 0);
 	const localRewrite = local.rewrite.replace(/(\S+\s+){10}/, "");
-	const scatteredRun = time(() => checkFidelity(scattered.source, scattered.rewrite), words > 10_000 ? 1 : 3);
-	const localRun = time(() => checkFidelity(local.source, localRewrite), 3);
+	const scatteredRun = time(() => checkFidelity(scattered.source, scattered.rewrite), words > 10_000 ? 3 : 5);
+	const localRun = time(() => checkFidelity(local.source, localRewrite));
 	return {
 		words,
 		scatteredEditsMs: round(scatteredRun.ms),
@@ -54,7 +60,7 @@ const scaling = [1_000, 5_000, 10_000, 20_000].map((words) => {
 });
 
 const identity = longPair(70_000, 0);
-const identityRun = time(() => checkFidelity(identity.source, identity.rewrite), 3);
+const identityRun = time(() => checkFidelity(identity.source, identity.rewrite));
 
 const results = {
 	measuredOn: new Date().toISOString().slice(0, 10),
