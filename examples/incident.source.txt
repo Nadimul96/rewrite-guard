@@ -1,0 +1,1 @@
+At 02:14 the nightly load into the orders warehouse stalled because the upstream export arrived 40 minutes late. The on-call engineer, Priya, paused the downstream jobs so no partial data reached the dashboards. She did not rerun the full backfill; she replayed only the 3 missing partitions. The tables were complete again by 03:05, and no customer reports were affected.

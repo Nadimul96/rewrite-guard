@@ -1,0 +1,14 @@
+[
+	{ "word": "the", "start": 0.0, "end": 0.12 },
+	{ "word": "export", "start": 0.12, "end": 0.55 },
+	{ "word": "arrived", "start": 0.58, "end": 0.94 },
+	{ "word": "late", "start": 0.97, "end": 1.31 },
+	{ "word": "so", "start": 1.52, "end": 1.66 },
+	{ "word": "we", "start": 1.68, "end": 1.79 },
+	{ "word": "paused", "start": 1.82, "end": 2.2 },
+	{ "word": "downstream", "start": 2.61, "end": 3.12 },
+	{ "word": "job", "start": 3.14, "end": 3.43 },
+	{ "word": "and", "start": 3.71, "end": 3.84 },
+	{ "word": "nothing", "start": 3.86, "end": 4.25 },
+	{ "word": "broke", "start": 4.28, "end": 4.66 }
+]

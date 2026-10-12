@@ -326,8 +326,9 @@ function ratio(numerator: number, denominator: number) {
 	return denominator === 0 ? 1 : numerator / denominator;
 }
 
+// Rounds down so a value just under its threshold never displays as equal to it.
 function percent(value: number) {
-	return `${Math.round(value * 1000) / 10}%`;
+	return `${Math.floor(value * 1000 + 1e-9) / 10}%`;
 }
 
 function runOf(count: number) {

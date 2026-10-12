@@ -35,6 +35,8 @@
 	],
 	"scripts": {
 		"build": "tsc -p tsconfig.build.json",
+		"cli": "tsx src/cli/main.ts",
+		"demo": "tsx scripts/demo.ts",
 		"typecheck": "tsc --noEmit",
 		"lint": "biome check .",
 		"format": "biome check --write .",
