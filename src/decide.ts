@@ -91,7 +91,9 @@ function percent(value: number) {
 }
 
 function stretch(length: number, words: string) {
-	return length === 1 ? `"${words}"` : `a ${length}-word stretch ("${words}")`;
+	if (length === 1) return `"${words}"`;
+	const article = String(length).startsWith("8") || length === 11 || length === 18 ? "an" : "a";
+	return `${article} ${length}-word stretch ("${words}")`;
 }
 
 function capitalize(text: string) {

@@ -1,6 +1,7 @@
 import type { Thresholds } from "../src/profiles.js";
 import type { TypeRow } from "./evaluate.js";
 import type { Scores } from "./metrics.js";
+import { PERTURBATIONS, type PerturbationType } from "./perturb/index.js";
 
 export interface BenchmarkResults {
 	readonly corpus: {
@@ -38,6 +39,8 @@ export interface ResultSet {
 }
 
 const pct = (value: number) => `${(value * 100).toFixed(1)}%`;
+const count = (value: number) => value.toLocaleString("en-US");
+const describe = (type: string) => PERTURBATIONS[type as PerturbationType]?.description ?? type;
 const limit = (value: number) => (Number.isFinite(value) ? String(value) : "off");
 const ratio = (value: number) => (value === 0 ? "off" : value.toFixed(2));
 
@@ -52,7 +55,7 @@ export function benchmarkMarkdown(results: BenchmarkResults): string {
 		`| ${label} | ${pct(set.test.precision)} | ${pct(set.test.recall)} | ${set.test.f1.toFixed(3)} | ${pct(set.test.falsePositiveRate)} |`;
 
 	lines.push(
-		`Held-out half: **${cal.test.n} labeled pairs** (${corpus.pairs} in total: ${corpus.unfaithful} unfaithful, ${corpus.faithful} faithful) generated from ${corpus.documents.story} stories, ${corpus.documents.fable} fables, ${corpus.documents.notice} notices and ${corpus.phrases} short phrases. "Positive" means unfaithful.`,
+		`Held-out half: **${count(cal.test.n)} labeled pairs** (${count(corpus.pairs)} in total: ${count(corpus.unfaithful)} unfaithful, ${count(corpus.faithful)} faithful) generated from ${corpus.documents.story} stories, ${corpus.documents.fable} fables, ${corpus.documents.notice} notices and ${corpus.phrases} short phrases. "Positive" means unfaithful.`,
 		"",
 		"| Thresholds | Precision | Recall | F1 | False-alarm rate |",
 		"| --- | ---: | ---: | ---: | ---: |",
@@ -99,12 +102,12 @@ export function benchmarkMarkdown(results: BenchmarkResults): string {
 		"",
 		"| | Flagged | Passed |",
 		"| --- | ---: | ---: |",
-		`| Unfaithful | ${cal.test.tp} (true positive) | ${cal.test.fn} (missed) |`,
-		`| Faithful | ${cal.test.fp} (false alarm) | ${cal.test.tn} (true negative) |`,
+		`| Unfaithful | ${count(cal.test.tp)} (true positive) | ${count(cal.test.fn)} (missed) |`,
+		`| Faithful | ${count(cal.test.fp)} (false alarm) | ${count(cal.test.tn)} (true negative) |`,
 		"",
-		`**Operating points.** Chosen to maximize ${results.objective.description}, with each surface-only edit (${results.objective.cappedTypes.map((type) => type.replaceAll("_", " ")).join(", ")}) kept under a ${pct(results.objective.maxFalseAlarm)} false-alarm rate. Ratios are minimums, runs are maximums in content-word spans. **Bold** values decided the calibration; _italic_ values are guards, set at the strictest value that caused no false alarm on the calibration half; \`off\` means any value would have cost accuracy.`,
+		`**Operating points.** Chosen to maximize ${results.objective.description}, with each surface-only edit (${results.objective.cappedTypes.map((type) => describe(type).toLowerCase()).join(", ")}) kept under a ${pct(results.objective.maxFalseAlarm)} false-alarm rate. Ratios are minimums, runs are maximums in content-word spans. **Bold** values decided the calibration; _italic_ values are guards, set at the strictest value that caused no false alarm on the calibration half; \`off\` means any value would have cost accuracy.`,
 		"",
-		"| Profile | Ordered | Lexical | Order retention | Ending | Max dropped run | Max moved run | Calibration score |",
+		"| Profile | Ordered | Lexical | Order retention | Ending | Max dropped run | Max moved run | Calibration score (type-balanced F1) |",
 		"| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
 	);
 	for (const name of ["short", "normal"] as const) {
