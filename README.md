@@ -1,6 +1,6 @@
 # rewrite-guard
 
-Deterministic, explainable checks that catch an LLM rewrite dropping, reordering or inventing facts from a source text, with an adversarial benchmark that measures how well they work.
+**A deterministic guardrail for LLM rewrites: it fails the output that dropped a "not", changed 40 to 45 or invented a city, and points at the exact word.**
 
 ![The playground flagging a rewrite that invented a place](docs/media/playground-light.webp)
 
@@ -8,6 +8,23 @@ Deterministic, explainable checks that catch an LLM rewrite dropping, reordering
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![TypeScript strict](https://img.shields.io/badge/TypeScript-strict-3178c6)
 ![Runtime dependencies: 0](https://img.shields.io/badge/runtime%20deps-0-brightgreen)
+![Held-out F1: 0.982](https://img.shields.io/badge/held--out%20F1-0.982-informational)
+
+| At a glance | |
+| --- | --- |
+| Held-out F1 on 1,816 adversarial pairs | **0.982** (hand-set thresholds: 0.935) |
+| False-alarm rate | **4.4%** (hand-set: 12.2%) |
+| Throughput | about 31,000 checks/s on an M1 |
+| Model calls, API keys, network | none |
+
+## Where AI fits
+
+rewrite-guard does not call a model. It sits *after* one, as a guardrail and an eval layer:
+
+- **Runtime guardrail.** Run `checkFidelity(source, llmOutput)` on every rewrite before it ships. A failure returns typed reasons (`novel_tokens`, `negation`, `number`, `dropped_span`, `moved_span`) with character positions, so you can retry the model, show the diff to a reviewer, or fall back to the source. Facts the model may legitimately add go in `allowedEvidence` ([`src/check.ts`](src/check.ts)).
+- **Offline eval.** The adversarial benchmark ([`bench/`](bench)) is a labeled test set of 13 unfaithful and 5 faithful edit types; the same report doubles as a per-failure-type scorecard for comparing prompts or models on your own source/output pairs.
+- **ASR post-processing.** [`alignTranscript`](src/transcript.ts) forces speech-recognition word timestamps onto a known script (for captions or karaoke-style highlighting), and refuses with a typed reason rather than inventing timing.
+- **Not included:** no LLM judge, no embeddings, no semantic paraphrase detection. Synonyms count as invented words; pair it with a semantic method when rewrites are meant to paraphrase.
 
 ## The problem
 
@@ -15,7 +32,7 @@ You ask a model to clean up a transcript, tighten an incident note or reformat a
 
 This library takes the opposite trade. It compares the two texts word by word, after normalizing what does not matter (case, punctuation, contractions, fillers, number words), and fails the rewrite with a reason and a character position for every missing, moved or invented word. It is strict by design: it accepts surface edits and rejects new vocabulary, which is the right contract for cleanup, formatting and tightening, and the wrong one for free paraphrase.
 
-## Why it's interesting
+## Why this is novel
 
 - **One alignment, three independent checks.** A single longest-common-subsequence pass ([`src/lcs.ts`](src/lcs.ts)) feeds coverage, novelty and protected-content checks ([`src/check.ts`](src/check.ts), [`src/decide.ts`](src/decide.ts)). The LCS is Hirschberg's linear-memory variant with 32-bit rows and shared prefix and suffix trimming, replacing two duplicated 16-bit copies that silently wrapped past 65,535 matched tokens.
 - **Thresholds calibrated on held-out data, not set by hand.** An adversarial benchmark ([`bench/`](bench)) generates 3,626 labeled pairs from 13 kinds of unfaithful edit and 5 kinds of faithful one, calibrates on half the documents and reports on the other half. The calibrated profile lifts held-out F1 from 0.935 to 0.982 and cuts false alarms from 12.2% to 4.4%. CI fails if the committed numbers drift from the code.
