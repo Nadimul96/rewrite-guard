@@ -14,7 +14,7 @@ export interface Token {
 // Letters, marks and digits, joined by apostrophes ("didn't") or by a
 // separator between two digits ("3,000", "4.5", "9:30").
 const WORD = /[\p{L}\p{M}\p{N}]+(?:(?:['’]|(?<=\p{N})[.,:](?=\p{N}))[\p{L}\p{M}\p{N}]+)*/gu;
-const CLAUSE_BREAK = /[.!?;:—–\n]/u;
+const CLAUSE_BREAK = /[.!?;:\n]/u;
 const THOUSANDS = /^\d{1,3}(?:,\d{3})+$/;
 const BRACKETING_PUNCTUATION = "[,;:—–-]";
 const CLOSING_PUNCTUATION = "[,;:.!?—–-]";

@@ -1,0 +1,1026 @@
+{
+  "corpus": {
+    "documents": {
+      "story": 30,
+      "fable": 16,
+      "notice": 16
+    },
+    "phrases": 36,
+    "units": {
+      "document": 62,
+      "sentence": 270,
+      "phrase": 36
+    },
+    "pairs": 3626,
+    "faithful": 1233,
+    "unfaithful": 2393,
+    "discarded": 0,
+    "split": {
+      "calibration": 1810,
+      "test": 1816
+    }
+  },
+  "objective": {
+    "description": "type-balanced F1 on the calibration half",
+    "cappedTypes": [
+      "punctuation_casing",
+      "filler_removal",
+      "light_paraphrase",
+      "move_adverbial"
+    ],
+    "maxFalseAlarm": 0.1
+  },
+  "thresholds": {
+    "handSet": {
+      "short": {
+        "ordered": 0.5,
+        "lexical": 0.55,
+        "orderRetention": 0.7,
+        "payoff": 1,
+        "maxMissingRun": null,
+        "maxMovedRun": null
+      },
+      "normal": {
+        "ordered": 0.78,
+        "lexical": 0.82,
+        "orderRetention": 0.9,
+        "payoff": 1,
+        "maxMissingRun": null,
+        "maxMovedRun": null
+      }
+    },
+    "calibrated": {
+      "short": {
+        "ordered": 0.5,
+        "lexical": 0.77,
+        "orderRetention": 0.5,
+        "payoff": 0,
+        "maxMissingRun": 0,
+        "maxMovedRun": 5
+      },
+      "normal": {
+        "ordered": 0.58,
+        "lexical": 0.84,
+        "orderRetention": 0.58,
+        "payoff": 0,
+        "maxMissingRun": 0,
+        "maxMovedRun": 6
+      }
+    },
+    "calibrationF1": {
+      "short": 0.9,
+      "normal": 0.9215
+    },
+    "plateaus": {
+      "short": {
+        "ordered": {
+          "lenient": 0,
+          "strict": 0.5
+        },
+        "lexical": {
+          "lenient": 0,
+          "strict": 0.77
+        },
+        "orderRetention": {
+          "lenient": 0,
+          "strict": 0.5
+        },
+        "payoff": {
+          "lenient": 0,
+          "strict": 0
+        },
+        "maxMissingRun": {
+          "lenient": 0,
+          "strict": 0
+        },
+        "maxMovedRun": {
+          "lenient": null,
+          "strict": 5
+        }
+      },
+      "normal": {
+        "ordered": {
+          "lenient": 0,
+          "strict": 0.58
+        },
+        "lexical": {
+          "lenient": 0,
+          "strict": 0.84
+        },
+        "orderRetention": {
+          "lenient": 0,
+          "strict": 0.58
+        },
+        "payoff": {
+          "lenient": 0,
+          "strict": 0
+        },
+        "maxMissingRun": {
+          "lenient": 0,
+          "strict": 0
+        },
+        "maxMovedRun": {
+          "lenient": 7,
+          "strict": 5
+        }
+      }
+    }
+  },
+  "results": {
+    "handSet": {
+      "calibration": {
+        "tp": 1113,
+        "fp": 70,
+        "tn": 546,
+        "fn": 81,
+        "n": 1810,
+        "precision": 0.9408,
+        "recall": 0.9322,
+        "f1": 0.9365,
+        "falsePositiveRate": 0.1136,
+        "accuracy": 0.9166
+      },
+      "test": {
+        "tp": 1119,
+        "fp": 75,
+        "tn": 542,
+        "fn": 80,
+        "n": 1816,
+        "precision": 0.9372,
+        "recall": 0.9333,
+        "f1": 0.9352,
+        "falsePositiveRate": 0.1216,
+        "accuracy": 0.9146
+      },
+      "testByProfile": {
+        "very_short": {
+          "tp": 82,
+          "fp": 9,
+          "tn": 41,
+          "fn": 0,
+          "n": 132,
+          "precision": 0.9011,
+          "recall": 1,
+          "f1": 0.948,
+          "falsePositiveRate": 0.18,
+          "accuracy": 0.9318
+        },
+        "short": {
+          "tp": 396,
+          "fp": 28,
+          "tn": 209,
+          "fn": 26,
+          "n": 659,
+          "precision": 0.934,
+          "recall": 0.9384,
+          "f1": 0.9362,
+          "falsePositiveRate": 0.1181,
+          "accuracy": 0.9181
+        },
+        "normal": {
+          "tp": 641,
+          "fp": 38,
+          "tn": 292,
+          "fn": 54,
+          "n": 1025,
+          "precision": 0.944,
+          "recall": 0.9223,
+          "f1": 0.933,
+          "falsePositiveRate": 0.1152,
+          "accuracy": 0.9102
+        }
+      },
+      "testByType": [
+        {
+          "type": "drop_payoff",
+          "label": "unfaithful",
+          "description": "Drop the ending",
+          "n": 183,
+          "flagged": 183,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "payoff": 183,
+            "lexical_coverage": 101,
+            "ordered_coverage": 90,
+            "number": 22,
+            "negation": 20,
+            "dropped_span": 17
+          }
+        },
+        {
+          "type": "drop_beat",
+          "label": "unfaithful",
+          "description": "Drop a middle sentence",
+          "n": 31,
+          "flagged": 28,
+          "flaggedRate": 0.9032,
+          "caughtBy": {
+            "lexical_coverage": 24,
+            "ordered_coverage": 19,
+            "negation": 8,
+            "number": 7,
+            "payoff": 2
+          }
+        },
+        {
+          "type": "drop_details",
+          "label": "unfaithful",
+          "description": "Drop scattered details",
+          "n": 143,
+          "flagged": 94,
+          "flaggedRate": 0.6573,
+          "caughtBy": {
+            "payoff": 89,
+            "negation": 11,
+            "number": 3,
+            "lexical_coverage": 1
+          }
+        },
+        {
+          "type": "drop_qualifier",
+          "label": "unfaithful",
+          "description": "Drop a time or place phrase",
+          "n": 66,
+          "flagged": 47,
+          "flaggedRate": 0.7121,
+          "caughtBy": {
+            "payoff": 45,
+            "lexical_coverage": 17,
+            "ordered_coverage": 11,
+            "number": 7
+          }
+        },
+        {
+          "type": "drop_negation",
+          "label": "unfaithful",
+          "description": "Drop a negation",
+          "n": 42,
+          "flagged": 42,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "negation": 42,
+            "payoff": 8,
+            "ordered_coverage": 4,
+            "lexical_coverage": 4,
+            "dropped_span": 4,
+            "novel_tokens": 2
+          }
+        },
+        {
+          "type": "swap_beats",
+          "label": "unfaithful",
+          "description": "Swap two events",
+          "n": 25,
+          "flagged": 25,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "ordered_coverage": 25,
+            "order_retention": 25,
+            "payoff": 14
+          }
+        },
+        {
+          "type": "shuffle_beats",
+          "label": "unfaithful",
+          "description": "Reorder every event",
+          "n": 25,
+          "flagged": 25,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "ordered_coverage": 25,
+            "order_retention": 25,
+            "payoff": 9
+          }
+        },
+        {
+          "type": "insert_name",
+          "label": "unfaithful",
+          "description": "Insert a new name",
+          "n": 183,
+          "flagged": 183,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "novel_tokens": 183
+          }
+        },
+        {
+          "type": "insert_place",
+          "label": "unfaithful",
+          "description": "Insert a new place",
+          "n": 183,
+          "flagged": 183,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "novel_tokens": 183
+          }
+        },
+        {
+          "type": "insert_number",
+          "label": "unfaithful",
+          "description": "Insert a new number",
+          "n": 183,
+          "flagged": 183,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "novel_tokens": 183
+          }
+        },
+        {
+          "type": "replace_number",
+          "label": "unfaithful",
+          "description": "Replace a number",
+          "n": 53,
+          "flagged": 53,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "number": 53,
+            "novel_tokens": 52,
+            "payoff": 14,
+            "ordered_coverage": 3,
+            "lexical_coverage": 3,
+            "dropped_span": 3
+          }
+        },
+        {
+          "type": "replace_name",
+          "label": "unfaithful",
+          "description": "Replace a name",
+          "n": 67,
+          "flagged": 67,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "novel_tokens": 67,
+            "payoff": 7,
+            "ordered_coverage": 3,
+            "lexical_coverage": 3,
+            "dropped_span": 3
+          }
+        },
+        {
+          "type": "swap_roles",
+          "label": "unfaithful",
+          "description": "Swap who did what",
+          "n": 15,
+          "flagged": 6,
+          "flaggedRate": 0.4,
+          "caughtBy": {
+            "payoff": 4,
+            "order_retention": 3
+          }
+        },
+        {
+          "type": "punctuation_casing",
+          "label": "faithful",
+          "description": "Punctuation and casing",
+          "n": 183,
+          "flagged": 0,
+          "flaggedRate": 0,
+          "caughtBy": {}
+        },
+        {
+          "type": "filler_removal",
+          "label": "faithful",
+          "description": "Remove fillers",
+          "n": 183,
+          "flagged": 0,
+          "flaggedRate": 0,
+          "caughtBy": {}
+        },
+        {
+          "type": "light_paraphrase",
+          "label": "faithful",
+          "description": "Light paraphrase",
+          "n": 166,
+          "flagged": 7,
+          "flaggedRate": 0.0422,
+          "caughtBy": {
+            "ordered_coverage": 7,
+            "lexical_coverage": 7
+          }
+        },
+        {
+          "type": "move_adverbial",
+          "label": "faithful",
+          "description": "Move a time or place phrase",
+          "n": 66,
+          "flagged": 49,
+          "flaggedRate": 0.7424,
+          "caughtBy": {
+            "payoff": 46,
+            "order_retention": 37,
+            "ordered_coverage": 11
+          }
+        },
+        {
+          "type": "heavy_paraphrase",
+          "label": "faithful",
+          "description": "Heavy paraphrase (hand-written)",
+          "n": 19,
+          "flagged": 19,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "novel_tokens": 19,
+            "ordered_coverage": 15,
+            "lexical_coverage": 15,
+            "payoff": 15,
+            "order_retention": 7,
+            "negation": 6,
+            "number": 2,
+            "dropped_span": 2
+          }
+        }
+      ]
+    },
+    "calibrated": {
+      "calibration": {
+        "tp": 1180,
+        "fp": 26,
+        "tn": 590,
+        "fn": 14,
+        "n": 1810,
+        "precision": 0.9784,
+        "recall": 0.9883,
+        "f1": 0.9833,
+        "falsePositiveRate": 0.0422,
+        "accuracy": 0.9779
+      },
+      "test": {
+        "tp": 1183,
+        "fp": 27,
+        "tn": 590,
+        "fn": 16,
+        "n": 1816,
+        "precision": 0.9777,
+        "recall": 0.9867,
+        "f1": 0.9822,
+        "falsePositiveRate": 0.0438,
+        "accuracy": 0.9763
+      },
+      "testByProfile": {
+        "very_short": {
+          "tp": 82,
+          "fp": 9,
+          "tn": 41,
+          "fn": 0,
+          "n": 132,
+          "precision": 0.9011,
+          "recall": 1,
+          "f1": 0.948,
+          "falsePositiveRate": 0.18,
+          "accuracy": 0.9318
+        },
+        "short": {
+          "tp": 417,
+          "fp": 6,
+          "tn": 231,
+          "fn": 5,
+          "n": 659,
+          "precision": 0.9858,
+          "recall": 0.9882,
+          "f1": 0.987,
+          "falsePositiveRate": 0.0253,
+          "accuracy": 0.9833
+        },
+        "normal": {
+          "tp": 684,
+          "fp": 12,
+          "tn": 318,
+          "fn": 11,
+          "n": 1025,
+          "precision": 0.9828,
+          "recall": 0.9842,
+          "f1": 0.9835,
+          "falsePositiveRate": 0.0364,
+          "accuracy": 0.9776
+        }
+      },
+      "testByType": [
+        {
+          "type": "drop_payoff",
+          "label": "unfaithful",
+          "description": "Drop the ending",
+          "n": 183,
+          "flagged": 183,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "dropped_span": 182,
+            "lexical_coverage": 165,
+            "ordered_coverage": 60,
+            "number": 22,
+            "negation": 20,
+            "payoff": 18
+          }
+        },
+        {
+          "type": "drop_beat",
+          "label": "unfaithful",
+          "description": "Drop a middle sentence",
+          "n": 31,
+          "flagged": 31,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "dropped_span": 31,
+            "lexical_coverage": 27,
+            "negation": 8,
+            "number": 7
+          }
+        },
+        {
+          "type": "drop_details",
+          "label": "unfaithful",
+          "description": "Drop scattered details",
+          "n": 143,
+          "flagged": 143,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "dropped_span": 143,
+            "lexical_coverage": 41,
+            "negation": 11,
+            "number": 3
+          }
+        },
+        {
+          "type": "drop_qualifier",
+          "label": "unfaithful",
+          "description": "Drop a time or place phrase",
+          "n": 66,
+          "flagged": 66,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "dropped_span": 66,
+            "lexical_coverage": 39,
+            "number": 7
+          }
+        },
+        {
+          "type": "drop_negation",
+          "label": "unfaithful",
+          "description": "Drop a negation",
+          "n": 42,
+          "flagged": 42,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "dropped_span": 42,
+            "negation": 42,
+            "ordered_coverage": 4,
+            "lexical_coverage": 4,
+            "novel_tokens": 2,
+            "payoff": 1
+          }
+        },
+        {
+          "type": "swap_beats",
+          "label": "unfaithful",
+          "description": "Swap two events",
+          "n": 25,
+          "flagged": 24,
+          "flaggedRate": 0.96,
+          "caughtBy": {
+            "moved_span": 24,
+            "ordered_coverage": 11,
+            "order_retention": 11
+          }
+        },
+        {
+          "type": "shuffle_beats",
+          "label": "unfaithful",
+          "description": "Reorder every event",
+          "n": 25,
+          "flagged": 25,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "moved_span": 25,
+            "ordered_coverage": 19,
+            "order_retention": 19
+          }
+        },
+        {
+          "type": "insert_name",
+          "label": "unfaithful",
+          "description": "Insert a new name",
+          "n": 183,
+          "flagged": 183,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "novel_tokens": 183
+          }
+        },
+        {
+          "type": "insert_place",
+          "label": "unfaithful",
+          "description": "Insert a new place",
+          "n": 183,
+          "flagged": 183,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "novel_tokens": 183
+          }
+        },
+        {
+          "type": "insert_number",
+          "label": "unfaithful",
+          "description": "Insert a new number",
+          "n": 183,
+          "flagged": 183,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "novel_tokens": 183
+          }
+        },
+        {
+          "type": "replace_number",
+          "label": "unfaithful",
+          "description": "Replace a number",
+          "n": 53,
+          "flagged": 53,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "dropped_span": 53,
+            "number": 53,
+            "novel_tokens": 52,
+            "ordered_coverage": 3,
+            "lexical_coverage": 3,
+            "payoff": 1
+          }
+        },
+        {
+          "type": "replace_name",
+          "label": "unfaithful",
+          "description": "Replace a name",
+          "n": 67,
+          "flagged": 67,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "dropped_span": 67,
+            "novel_tokens": 67,
+            "ordered_coverage": 3,
+            "lexical_coverage": 3
+          }
+        },
+        {
+          "type": "swap_roles",
+          "label": "unfaithful",
+          "description": "Swap who did what",
+          "n": 15,
+          "flagged": 0,
+          "flaggedRate": 0,
+          "caughtBy": {}
+        },
+        {
+          "type": "punctuation_casing",
+          "label": "faithful",
+          "description": "Punctuation and casing",
+          "n": 183,
+          "flagged": 0,
+          "flaggedRate": 0,
+          "caughtBy": {}
+        },
+        {
+          "type": "filler_removal",
+          "label": "faithful",
+          "description": "Remove fillers",
+          "n": 183,
+          "flagged": 0,
+          "flaggedRate": 0,
+          "caughtBy": {}
+        },
+        {
+          "type": "light_paraphrase",
+          "label": "faithful",
+          "description": "Light paraphrase",
+          "n": 166,
+          "flagged": 8,
+          "flaggedRate": 0.0482,
+          "caughtBy": {
+            "lexical_coverage": 8,
+            "ordered_coverage": 7
+          }
+        },
+        {
+          "type": "move_adverbial",
+          "label": "faithful",
+          "description": "Move a time or place phrase",
+          "n": 66,
+          "flagged": 0,
+          "flaggedRate": 0,
+          "caughtBy": {}
+        },
+        {
+          "type": "heavy_paraphrase",
+          "label": "faithful",
+          "description": "Heavy paraphrase (hand-written)",
+          "n": 19,
+          "flagged": 19,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "lexical_coverage": 19,
+            "dropped_span": 19,
+            "novel_tokens": 19,
+            "ordered_coverage": 12,
+            "negation": 6,
+            "number": 2,
+            "payoff": 2
+          }
+        }
+      ]
+    },
+    "strict": {
+      "calibration": {
+        "tp": 1194,
+        "fp": 89,
+        "tn": 527,
+        "fn": 0,
+        "n": 1810,
+        "precision": 0.9306,
+        "recall": 1,
+        "f1": 0.9641,
+        "falsePositiveRate": 0.1445,
+        "accuracy": 0.9508
+      },
+      "test": {
+        "tp": 1199,
+        "fp": 93,
+        "tn": 524,
+        "fn": 0,
+        "n": 1816,
+        "precision": 0.928,
+        "recall": 1,
+        "f1": 0.9627,
+        "falsePositiveRate": 0.1507,
+        "accuracy": 0.9488
+      },
+      "testByProfile": {
+        "very_short": {
+          "tp": 82,
+          "fp": 9,
+          "tn": 41,
+          "fn": 0,
+          "n": 132,
+          "precision": 0.9011,
+          "recall": 1,
+          "f1": 0.948,
+          "falsePositiveRate": 0.18,
+          "accuracy": 0.9318
+        },
+        "short": {
+          "tp": 422,
+          "fp": 28,
+          "tn": 209,
+          "fn": 0,
+          "n": 659,
+          "precision": 0.9378,
+          "recall": 1,
+          "f1": 0.9679,
+          "falsePositiveRate": 0.1181,
+          "accuracy": 0.9575
+        },
+        "normal": {
+          "tp": 695,
+          "fp": 56,
+          "tn": 274,
+          "fn": 0,
+          "n": 1025,
+          "precision": 0.9254,
+          "recall": 1,
+          "f1": 0.9613,
+          "falsePositiveRate": 0.1697,
+          "accuracy": 0.9454
+        }
+      },
+      "testByType": [
+        {
+          "type": "drop_payoff",
+          "label": "unfaithful",
+          "description": "Drop the ending",
+          "n": 183,
+          "flagged": 183,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "dropped_span": 182,
+            "lexical_coverage": 165,
+            "ordered_coverage": 60,
+            "number": 22,
+            "negation": 20,
+            "payoff": 18
+          }
+        },
+        {
+          "type": "drop_beat",
+          "label": "unfaithful",
+          "description": "Drop a middle sentence",
+          "n": 31,
+          "flagged": 31,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "dropped_span": 31,
+            "lexical_coverage": 27,
+            "negation": 8,
+            "number": 7
+          }
+        },
+        {
+          "type": "drop_details",
+          "label": "unfaithful",
+          "description": "Drop scattered details",
+          "n": 143,
+          "flagged": 143,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "dropped_span": 143,
+            "lexical_coverage": 41,
+            "negation": 11,
+            "number": 3
+          }
+        },
+        {
+          "type": "drop_qualifier",
+          "label": "unfaithful",
+          "description": "Drop a time or place phrase",
+          "n": 66,
+          "flagged": 66,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "dropped_span": 66,
+            "lexical_coverage": 39,
+            "number": 7
+          }
+        },
+        {
+          "type": "drop_negation",
+          "label": "unfaithful",
+          "description": "Drop a negation",
+          "n": 42,
+          "flagged": 42,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "dropped_span": 42,
+            "negation": 42,
+            "ordered_coverage": 4,
+            "lexical_coverage": 4,
+            "novel_tokens": 2,
+            "payoff": 1
+          }
+        },
+        {
+          "type": "swap_beats",
+          "label": "unfaithful",
+          "description": "Swap two events",
+          "n": 25,
+          "flagged": 25,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "moved_span": 25,
+            "ordered_coverage": 11,
+            "order_retention": 11
+          }
+        },
+        {
+          "type": "shuffle_beats",
+          "label": "unfaithful",
+          "description": "Reorder every event",
+          "n": 25,
+          "flagged": 25,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "moved_span": 25,
+            "ordered_coverage": 19,
+            "order_retention": 19
+          }
+        },
+        {
+          "type": "insert_name",
+          "label": "unfaithful",
+          "description": "Insert a new name",
+          "n": 183,
+          "flagged": 183,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "novel_tokens": 183
+          }
+        },
+        {
+          "type": "insert_place",
+          "label": "unfaithful",
+          "description": "Insert a new place",
+          "n": 183,
+          "flagged": 183,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "novel_tokens": 183
+          }
+        },
+        {
+          "type": "insert_number",
+          "label": "unfaithful",
+          "description": "Insert a new number",
+          "n": 183,
+          "flagged": 183,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "novel_tokens": 183
+          }
+        },
+        {
+          "type": "replace_number",
+          "label": "unfaithful",
+          "description": "Replace a number",
+          "n": 53,
+          "flagged": 53,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "dropped_span": 53,
+            "number": 53,
+            "novel_tokens": 52,
+            "ordered_coverage": 3,
+            "lexical_coverage": 3,
+            "payoff": 1
+          }
+        },
+        {
+          "type": "replace_name",
+          "label": "unfaithful",
+          "description": "Replace a name",
+          "n": 67,
+          "flagged": 67,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "dropped_span": 67,
+            "novel_tokens": 67,
+            "ordered_coverage": 3,
+            "lexical_coverage": 3
+          }
+        },
+        {
+          "type": "swap_roles",
+          "label": "unfaithful",
+          "description": "Swap who did what",
+          "n": 15,
+          "flagged": 15,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "moved_span": 15
+          }
+        },
+        {
+          "type": "punctuation_casing",
+          "label": "faithful",
+          "description": "Punctuation and casing",
+          "n": 183,
+          "flagged": 0,
+          "flaggedRate": 0,
+          "caughtBy": {}
+        },
+        {
+          "type": "filler_removal",
+          "label": "faithful",
+          "description": "Remove fillers",
+          "n": 183,
+          "flagged": 0,
+          "flaggedRate": 0,
+          "caughtBy": {}
+        },
+        {
+          "type": "light_paraphrase",
+          "label": "faithful",
+          "description": "Light paraphrase",
+          "n": 166,
+          "flagged": 8,
+          "flaggedRate": 0.0482,
+          "caughtBy": {
+            "lexical_coverage": 8,
+            "ordered_coverage": 7
+          }
+        },
+        {
+          "type": "move_adverbial",
+          "label": "faithful",
+          "description": "Move a time or place phrase",
+          "n": 66,
+          "flagged": 66,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "moved_span": 66
+          }
+        },
+        {
+          "type": "heavy_paraphrase",
+          "label": "faithful",
+          "description": "Heavy paraphrase (hand-written)",
+          "n": 19,
+          "flagged": 19,
+          "flaggedRate": 1,
+          "caughtBy": {
+            "lexical_coverage": 19,
+            "dropped_span": 19,
+            "novel_tokens": 19,
+            "ordered_coverage": 12,
+            "moved_span": 11,
+            "negation": 6,
+            "number": 2,
+            "payoff": 2
+          }
+        }
+      ]
+    }
+  }
+}
