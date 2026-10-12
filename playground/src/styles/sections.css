@@ -1,0 +1,236 @@
+/* Explainer cards, the benchmark table, the footer, then breakpoints. */
+/* How it works and benchmark */
+.how,
+.benchmark {
+	margin-top: 56px;
+}
+
+.how h2,
+.benchmark h2 {
+	font-size: 22px;
+	font-weight: 650;
+}
+
+.section-lede {
+	color: var(--text-2);
+	max-width: 760px;
+	margin: 8px 0 20px;
+}
+
+.how__grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 16px;
+}
+
+.how__card {
+	padding: 18px 20px;
+}
+
+.how__card h3 {
+	font-size: 15px;
+	font-weight: 600;
+	margin-bottom: 6px;
+}
+
+.how__card p {
+	margin: 0;
+	color: var(--text-2);
+	font-size: 14px;
+}
+
+.benchmark__table-wrap {
+	overflow-x: auto;
+}
+
+.benchmark__table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 14px;
+}
+
+.benchmark__table th,
+.benchmark__table td {
+	text-align: left;
+	padding: 10px 16px;
+	border-bottom: 1px solid var(--border);
+	white-space: nowrap;
+}
+
+.benchmark__table thead th {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--muted);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	background: var(--surface-2);
+}
+
+.benchmark__table tbody th {
+	font-weight: 500;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.benchmark__table td {
+	font-variant-numeric: tabular-nums;
+}
+
+.benchmark__table tbody tr:last-child th,
+.benchmark__table tbody tr:last-child td {
+	border-bottom: 0;
+}
+
+.benchmark__kind {
+	font-size: 12px;
+	font-weight: 400;
+	color: var(--muted);
+}
+
+.is-good {
+	color: var(--pass);
+	font-weight: 600;
+}
+
+.is-bad {
+	color: var(--fail);
+	font-weight: 600;
+}
+
+.benchmark__bar-col {
+	width: 30%;
+}
+
+.bar {
+	display: block;
+	height: 6px;
+	border-radius: 999px;
+	background: var(--surface-2);
+	position: relative;
+	min-width: 120px;
+}
+
+.bar__fill {
+	position: absolute;
+	inset: 0 auto 0 0;
+	border-radius: 999px;
+}
+
+.bar--unfaithful .bar__fill {
+	background: var(--fail);
+}
+
+.bar--faithful .bar__fill {
+	background: var(--muted);
+}
+
+.footer {
+	max-width: 1200px;
+	margin: 48px auto 0;
+	padding: 24px;
+	border-top: 1px solid var(--border);
+	color: var(--muted);
+	font-size: 13px;
+}
+
+.footer p {
+	margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+	.workspace {
+		grid-template-columns: 1fr;
+	}
+	/* On one column the verdict comes right after the inputs, before the diff. */
+	.main-col {
+		display: contents;
+	}
+	.editors {
+		order: 1;
+	}
+	.results {
+		order: 2;
+		position: static;
+	}
+	.diff {
+		order: 3;
+	}
+	.how__grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 640px) {
+	.page {
+		padding: 24px 16px 16px;
+	}
+	.hero__lede {
+		font-size: 15px;
+	}
+	.examples {
+		display: block;
+	}
+	.examples__label {
+		display: block;
+		margin-bottom: 8px;
+	}
+	/* One swipeable row instead of six wrapped rows of chips. */
+	.examples__list {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		margin: 0 -16px;
+		padding: 0 16px 6px;
+		scrollbar-width: none;
+	}
+	.examples__list::-webkit-scrollbar {
+		display: none;
+	}
+	.example {
+		flex: none;
+	}
+	.topbar__inner {
+		padding: 0 16px;
+	}
+	.topnav a:not(:last-of-type) {
+		display: none;
+	}
+	.diff__panes {
+		grid-template-columns: 1fr;
+	}
+	.diff,
+	.checks,
+	.verdict {
+		padding: 16px;
+	}
+	.benchmark__bar-col {
+		display: none;
+	}
+	.benchmark__table th,
+	.benchmark__table td {
+		padding: 10px 12px;
+	}
+	.benchmark__table tbody th {
+		white-space: normal;
+	}
+	.benchmark__kind {
+		display: none;
+	}
+	.footer {
+		padding: 20px 16px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+	.example,
+	.switch__track,
+	.switch__track::after,
+	.gauge__fill,
+	.tok {
+		transition: none;
+	}
+}
