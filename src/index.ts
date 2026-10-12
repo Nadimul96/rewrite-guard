@@ -21,6 +21,7 @@ export {
 	type Thresholds,
 } from "./profiles.js";
 export { checkPartition, findQuote, type PartitionResult, type QuoteMatch } from "./quotes.js";
+export { longestSpan, type Span } from "./runs.js";
 export { normalizeWord, type Token, tokenize, tokenNorms } from "./tokenize.js";
 export {
 	type AlignedWord,

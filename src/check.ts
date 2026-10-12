@@ -10,7 +10,7 @@ import {
 	type Thresholds,
 } from "./profiles.js";
 import type { FidelityReport, MovedToken, TokenRef } from "./report.js";
-import { longestSpan } from "./runs.js";
+import { longestSpan, type Span } from "./runs.js";
 import { type Token, tokenize } from "./tokenize.js";
 
 export type {
@@ -104,6 +104,10 @@ export function checkFidelity(
 		: payoffSpan;
 	const payoffMissing = payoffContent.filter((token) => !sourceAligned[token.index]);
 
+	const spans = {
+		missing: longestSpan(missingFlags, sourceGlue),
+		moved: longestSpan(sourceMoved, sourceGlue),
+	};
 	const sourceCount = sourceTokens.length;
 	const matchedInOrder = alignment.length;
 	const matchedLexically = matchedInOrder + moved.length;
@@ -112,8 +116,8 @@ export function checkFidelity(
 		lexicalCoverage: ratio(matchedLexically, sourceCount),
 		orderRetention: ratio(matchedInOrder, matchedLexically),
 		payoffCoverage: ratio(payoffContent.length - payoffMissing.length, payoffContent.length),
-		longestMissingRun: longestSpan(missingFlags, sourceGlue),
-		longestMovedRun: longestSpan(sourceMoved, sourceGlue),
+		longestMissingRun: spanLength(spans.missing),
+		longestMovedRun: spanLength(spans.moved),
 	};
 
 	const failures = decide({
@@ -124,6 +128,10 @@ export function checkFidelity(
 		novel,
 		negations,
 		numbers,
+		spans: {
+			missing: describeSpan(spans.missing, sourceTokens),
+			moved: describeSpan(spans.moved, sourceTokens),
+		},
 		requirePayoff: options.requirePayoff ?? true,
 	});
 
@@ -143,6 +151,7 @@ export function checkFidelity(
 		moved,
 		negations,
 		numbers,
+		spans,
 		payoff: { range: [payoffStart, sourceCount], missing: payoffMissing },
 		alignment,
 		sourceTokens,
@@ -203,6 +212,18 @@ function supportedVocabulary(
 
 function withText(text: string, tokens: readonly Token[]): TokenRef[] {
 	return tokens.map((token) => ({ ...token, text: text.slice(token.start, token.end) }));
+}
+
+function spanLength(span: Span | null) {
+	return span ? span.end - span.start : 0;
+}
+
+/** "did … 3": the first and last words of a span, for failure messages. */
+function describeSpan(span: Span | null, tokens: readonly TokenRef[]) {
+	if (!span) return "";
+	const first = tokens[span.start]?.text ?? "";
+	const last = tokens[span.end - 1]?.text ?? "";
+	return span.end - span.start === 1 || first === last ? first : `${first} … ${last}`;
 }
 
 function ratio(numerator: number, denominator: number) {

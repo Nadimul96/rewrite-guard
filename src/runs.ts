@@ -1,6 +1,13 @@
+export interface Span {
+	/** First token index of the block. */
+	readonly start: number;
+	/** Token index just past the block; `end - start` is its length. */
+	readonly end: number;
+}
+
 /**
- * Length of the longest block of source tokens that share a status (missing,
- * or moved out of order), measured on content words.
+ * The longest block of source tokens that share a status (missing, or moved
+ * out of order), measured on content words; null when there is none.
  *
  * A block starts and ends on content words with the status. Function words
  * inside it count toward its length whatever their own status, and function
@@ -11,11 +18,11 @@
  * - Dropping or swapping only function words ("the" for "a") never forms a
  *   block, so light edits do not look like dropped spans.
  */
-export function longestSpan(status: Uint8Array, glue: Uint8Array): number {
+export function longestSpan(status: Uint8Array, glue: Uint8Array): Span | null {
 	const n = status.length;
 	const isContentHit = (index: number) => !glue[index] && status[index] === 1;
 	const isEdgeGlue = (index: number) => glue[index] === 1 && status[index] === 1;
-	let longest = 0;
+	let longest: Span | null = null;
 	let index = 0;
 	while (index < n) {
 		if (!isContentHit(index)) {
@@ -32,7 +39,7 @@ export function longestSpan(status: Uint8Array, glue: Uint8Array): number {
 		}
 		let end = lastContent;
 		while (end + 1 < n && isEdgeGlue(end + 1)) end += 1;
-		longest = Math.max(longest, end - start + 1);
+		if (!longest || end + 1 - start > longest.end - longest.start) longest = { start, end: end + 1 };
 		index = cursor;
 	}
 	return longest;

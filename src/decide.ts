@@ -9,6 +9,8 @@ export interface DecisionInput {
 	readonly novel: readonly TokenRef[];
 	readonly negations: FidelityReport["negations"];
 	readonly numbers: FidelityReport["numbers"];
+	/** First and last words of the longest dropped and moved blocks. */
+	readonly spans: { readonly missing: string; readonly moved: string };
 	readonly requirePayoff: boolean;
 }
 
@@ -57,13 +59,13 @@ export function decide(input: DecisionInput): Failure[] {
 	if (metrics.longestMissingRun > profile.maxMissingRun) {
 		fail(
 			"dropped_span",
-			`${runOf(metrics.longestMissingRun)} missing; the limit is ${profile.maxMissingRun}.`,
+			`The rewrite drops ${stretch(metrics.longestMissingRun, input.spans.missing)}; the limit is ${profile.maxMissingRun}.`,
 		);
 	}
 	if (metrics.longestMovedRun > profile.maxMovedRun) {
 		fail(
 			"moved_span",
-			`${runOf(metrics.longestMovedRun)} out of order; the limit is ${profile.maxMovedRun}.`,
+			`${capitalize(stretch(metrics.longestMovedRun, input.spans.moved))} is out of source order; the limit is ${profile.maxMovedRun}.`,
 		);
 	}
 	if (novel.length > 0) {
@@ -88,8 +90,12 @@ function percent(value: number) {
 	return `${Math.floor(value * 1000 + 1e-9) / 10}%`;
 }
 
-function runOf(count: number) {
-	return count === 1 ? "1 source word is" : `${count} consecutive source words are`;
+function stretch(length: number, words: string) {
+	return length === 1 ? `"${words}"` : `a ${length}-word stretch ("${words}")`;
+}
+
+function capitalize(text: string) {
+	return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
 function quoteList(tokens: readonly TokenRef[]) {

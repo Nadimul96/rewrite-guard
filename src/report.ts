@@ -1,5 +1,6 @@
 import type { Alignment } from "./lcs.js";
 import type { ThresholdProfile } from "./profiles.js";
+import type { Span } from "./runs.js";
 import type { Token } from "./tokenize.js";
 
 export type FailureCode =
@@ -65,6 +66,8 @@ export interface FidelityReport {
 	readonly negations: { readonly dropped: readonly TokenRef[]; readonly added: readonly TokenRef[] };
 	/** Source numbers absent from the rewrite. */
 	readonly numbers: { readonly dropped: readonly TokenRef[] };
+	/** Source token ranges of the longest dropped and moved blocks. */
+	readonly spans: { readonly missing: Span | null; readonly moved: Span | null };
 	readonly payoff: {
 		/** Source token range `[start, end)` treated as the payoff. */
 		readonly range: readonly [number, number];
