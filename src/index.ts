@@ -1,3 +1,4 @@
+export { type AnchorOptions, anchorSegments, type SegmentAnchor } from "./anchor.js";
 export {
 	checkFidelity,
 	type Failure,
