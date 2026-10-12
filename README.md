@@ -1,10 +1,10 @@
-# rewrite-fidelity
+# rewrite-guard
 
 Deterministic, explainable checks that catch an LLM rewrite dropping, reordering or inventing facts from a source text, with an adversarial benchmark that measures how well they work.
 
 ![The playground flagging a rewrite that invented a place](docs/media/playground-light.webp)
 
-[![CI](https://github.com/Nadimul96/rewrite-fidelity/actions/workflows/ci.yml/badge.svg)](https://github.com/Nadimul96/rewrite-fidelity/actions/workflows/ci.yml)
+[![CI](https://github.com/Nadimul96/rewrite-guard/actions/workflows/ci.yml/badge.svg)](https://github.com/Nadimul96/rewrite-guard/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![TypeScript strict](https://img.shields.io/badge/TypeScript-strict-3178c6)
 ![Runtime dependencies: 0](https://img.shields.io/badge/runtime%20deps-0-brightgreen)
@@ -28,8 +28,8 @@ This library takes the opposite trade. It compares the two texts word by word, a
 Requires Node 22 (see `.nvmrc`) and pnpm. No API keys, no network at run time.
 
 ```bash
-git clone https://github.com/Nadimul96/rewrite-fidelity.git
-cd rewrite-fidelity
+git clone https://github.com/Nadimul96/rewrite-guard.git
+cd rewrite-guard
 pnpm install
 pnpm demo        # the CLI on bundled examples: one pass, one fail, one forced alignment
 pnpm dev         # the playground at http://localhost:5173
@@ -49,7 +49,7 @@ Exit codes: `0` faithful (or aligned), `1` unfaithful (or the alignment failed h
 The library (not yet published to npm; build it and import from `dist/`):
 
 ```ts
-import { checkFidelity } from "rewrite-fidelity";
+import { checkFidelity } from "rewrite-guard";
 
 const report = checkFidelity(
 	"The courier did not sign for the 3 parcels at the Leeds depot on Monday.",

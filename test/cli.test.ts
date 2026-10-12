@@ -85,7 +85,7 @@ describe("cli", () => {
 	it("prints help and a version that matches package.json", () => {
 		const help = fakeIo(files);
 		expect(run(["--help"], help.io)).toBe(0);
-		expect(help.out()).toContain("rewrite-fidelity check <source> <rewrite>");
+		expect(help.out()).toContain("rewrite-guard check <source> <rewrite>");
 		const pkg = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 		expect(VERSION).toBe(pkg.version);
 	});

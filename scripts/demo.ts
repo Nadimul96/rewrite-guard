@@ -28,7 +28,7 @@ const steps: Array<[string, string[]]> = [
 ];
 
 for (const [title, argv] of steps) {
-	process.stdout.write(`\n=== ${title}\n$ rewrite-fidelity ${argv.join(" ")}\n\n`);
+	process.stdout.write(`\n=== ${title}\n$ rewrite-guard ${argv.join(" ")}\n\n`);
 	const code = run(argv, io);
 	process.stdout.write(`\n(exit code ${code})\n`);
 }

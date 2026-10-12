@@ -9,12 +9,12 @@ import { COLOR, formatAlignment, formatReport, PLAIN, reportToJson } from "./for
 
 export const VERSION = "0.1.0";
 
-const HELP = `rewrite-fidelity ${VERSION}
+const HELP = `rewrite-guard ${VERSION}
 Deterministic checks that catch a rewrite dropping, reordering or inventing facts.
 
 Usage
-  rewrite-fidelity check <source> <rewrite> [options]
-  rewrite-fidelity align <script> <words.json> [--duration <seconds>] [--json]
+  rewrite-guard check <source> <rewrite> [options]
+  rewrite-guard align <script> <words.json> [--duration <seconds>] [--json]
 
 Files may be "-" to read from stdin (one of them at most).
 

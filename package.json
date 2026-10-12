@@ -1,5 +1,5 @@
 {
-	"name": "rewrite-fidelity",
+	"name": "rewrite-guard",
 	"version": "0.1.0",
 	"description": "Deterministic, explainable checks that catch an LLM rewrite dropping, reordering or inventing facts from a source text.",
 	"keywords": [
@@ -28,7 +28,7 @@
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"bin": {
-		"rewrite-fidelity": "./dist/cli/main.js"
+		"rewrite-guard": "./dist/cli/main.js"
 	},
 	"files": [
 		"dist"
