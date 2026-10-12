@@ -40,43 +40,49 @@ export function formatReport(report: FidelityReport, source: string, rewrite: st
 		"",
 	];
 
+	const failed = new Set(report.failures.map((failure) => failure.code));
+	const minimum = (value: number) => (value === 0 ? "off" : `>= ${pct(value)}`);
+	const maximum = (value: number) => (Number.isFinite(value) ? `<= ${value}` : "off");
 	const rows: Array<[string, string, string, boolean]> = [
 		[
 			"ordered coverage",
 			pct(metrics.orderedCoverage),
-			`>= ${pct(profile.ordered)}`,
-			metrics.orderedCoverage >= profile.ordered,
+			minimum(profile.ordered),
+			!failed.has("ordered_coverage"),
 		],
 		[
 			"lexical coverage",
 			pct(metrics.lexicalCoverage),
-			`>= ${pct(profile.lexical)}`,
-			metrics.lexicalCoverage >= profile.lexical,
+			minimum(profile.lexical),
+			!failed.has("lexical_coverage"),
 		],
 		[
 			"order retention",
 			pct(metrics.orderRetention),
-			`>= ${pct(profile.orderRetention)}`,
-			metrics.orderRetention >= profile.orderRetention,
+			minimum(profile.orderRetention),
+			!failed.has("order_retention"),
 		],
-		[
-			"ending coverage",
-			pct(metrics.payoffCoverage),
-			`>= ${pct(profile.payoff)}`,
-			!report.failures.some((f) => f.code === "payoff"),
-		],
+		["ending coverage", pct(metrics.payoffCoverage), minimum(profile.payoff), !failed.has("payoff")],
 		[
 			"longest dropped run",
 			String(metrics.longestMissingRun),
-			`<= ${limit(profile.maxMissingRun)}`,
-			metrics.longestMissingRun <= profile.maxMissingRun,
+			maximum(profile.maxMissingRun),
+			!failed.has("dropped_span"),
 		],
 		[
 			"longest moved run",
 			String(metrics.longestMovedRun),
-			`<= ${limit(profile.maxMovedRun)}`,
-			metrics.longestMovedRun <= profile.maxMovedRun,
+			maximum(profile.maxMovedRun),
+			!failed.has("moved_span"),
 		],
+		["invented words", String(report.novel.length), "<= 0", !failed.has("novel_tokens")],
+		[
+			"negation changes",
+			String(report.negations.dropped.length + report.negations.added.length),
+			"<= 0",
+			!failed.has("negation"),
+		],
+		["lost numbers", String(report.numbers.dropped.length), "<= 0", !failed.has("number")],
 	];
 	for (const [label, value, needs, ok] of rows) {
 		const mark = ok ? style.good("ok") : style.bad("FAIL");
@@ -162,10 +168,6 @@ export function formatAlignment(result: TranscriptAlignment, style: Style): stri
 
 function pct(value: number) {
 	return `${(Math.floor(value * 1000 + 1e-9) / 10).toFixed(1)}%`;
-}
-
-function limit(value: number) {
-	return Number.isFinite(value) ? String(value) : "none";
 }
 
 function finiteOrNull(value: number) {

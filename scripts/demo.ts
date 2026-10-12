@@ -18,7 +18,7 @@ const steps: Array<[string, string[]]> = [
 		["check", "examples/incident.source.txt", "examples/incident.faithful.txt"],
 	],
 	[
-		"An unfaithful rewrite: invented place, changed number, dropped negation, lost ending",
+		"An unfaithful rewrite: invented place, changed number, dropped negation, dropped clause",
 		["check", "examples/incident.source.txt", "examples/incident.unfaithful.txt"],
 	],
 	[

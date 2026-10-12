@@ -7,8 +7,11 @@
  *
  * The `short` and `normal` values are calibrated by `pnpm bench` on the
  * calibration half of the adversarial benchmark (see bench/calibrate.ts and
- * the README). `very_short` is exact by design, and `bench --check` fails if
- * these numbers drift from what the benchmark produces.
+ * the README). `maxMissingRun: 0` means no content word may be dropped; the
+ * ratio limits are guards set at the strictest values that caused no false
+ * alarm there; a payoff of 0 means that check is off. `very_short` is exact by
+ * design, and `pnpm bench:check` fails if these numbers drift from what the
+ * benchmark produces.
  */
 export type ProfileName = "empty" | "very_short" | "short" | "normal";
 
@@ -51,22 +54,22 @@ export const PROFILES: readonly ThresholdProfile[] = [
 		minTokens: 5,
 		maxTokens: 11,
 		ordered: 0.5,
-		lexical: 0.55,
-		orderRetention: 0.7,
-		payoff: 1,
-		maxMissingRun: Number.POSITIVE_INFINITY,
-		maxMovedRun: Number.POSITIVE_INFINITY,
+		lexical: 0.77,
+		orderRetention: 0.5,
+		payoff: 0,
+		maxMissingRun: 0,
+		maxMovedRun: 5,
 	},
 	{
 		name: "normal",
 		minTokens: 12,
 		maxTokens: Number.POSITIVE_INFINITY,
-		ordered: 0.78,
-		lexical: 0.82,
-		orderRetention: 0.9,
-		payoff: 1,
-		maxMissingRun: Number.POSITIVE_INFINITY,
-		maxMovedRun: Number.POSITIVE_INFINITY,
+		ordered: 0.58,
+		lexical: 0.84,
+		orderRetention: 0.58,
+		payoff: 0,
+		maxMissingRun: 0,
+		maxMovedRun: 6,
 	},
 ];
 
